@@ -1,0 +1,5 @@
+{
+  "name": "Briefly - Meeting Summarizer",
+  "description": "An intelligent meeting assistant that generates summaries, action items, and notes from audio/video recordings using Gemini 3.",
+  "requestFramePermissions": []
+}
