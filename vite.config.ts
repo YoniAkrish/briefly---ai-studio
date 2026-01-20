@@ -1,19 +1,23 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import path from 'path';
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-    base: "/briefly---ai-studio/",  // <--- ADD THIS LINE
-  plugins: [react()],
-  // This base path ensures assets load correctly when hosted on GitHub Pages
-  base: "/briefly---ai-studio/",
-  build: {
-    outDir: 'dist',
-    sourcemap: true
-  },
-  define: {
-    // Expose env variables to the client
-    'process.env.API_KEY': JSON.stringify(process.env.API_KEY)
-  }
-
-})
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, '.', '');
+    return {
+      server: {
+        port: 3000,
+        host: '0.0.0.0',
+      },
+      plugins: [react()],
+      define: {
+        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      },
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '.'),
+        }
+      }
+    };
+});
